@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>DỰ ĐOÁN GIÁ BITCOIN - LSTM</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {font-family: Arial; text-align: center; background: #0f1620; color: white;}
+        .container {max-width: 1000px; margin: 50px auto;}
+        button {padding: 15px 30px; margin: 10px; font-size: 18px; background: #00d4ff; border: none; border-radius: 10px; cursor: pointer;}
+        button:hover {background: #00a8cc;}
+        canvas {margin-top: 30px; background: #1a2332; border-radius: 15px;}
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>DỰ ĐOÁN GIÁ BITCOIN BẰNG LSTM</h1>
+    <p>Đồ án tốt nghiệp - Doãn Hữu Huy</p>
+    <button onclick="predict(1)">Dự đoán 1 ngày</button>
+    <button onclick="predict(3)">Dự đoán 3 ngày</button>
+    <button onclick="predict(5)">Dự đoán 5 ngày</button>
+    <button onclick="predict(7)">Dự đoán 7 ngày</button>
+    <canvas id="chart" height="400"></canvas>
+</div>
+
+<script>
+let myChart = null;  // Biến toàn cục để lưu đồ thị
+
+async function predict(days) {
+    const res = await fetch(`/predict/${days}`);
+    const data = await res.json();
+    if (data.error) { 
+        alert(data.error); 
+        return; 
+    }
+    
+    const labels = Array.from({length: days}, (_, i) => `Day +${i+1}`);
+    
+    // XÓA ĐỒ THỊ CŨ TRƯỚC KHI VẼ MỚI
+    if (myChart) {
+        myChart.destroy();
+    }
+    
+    myChart = new Chart(document.getElementById('chart'), {
+        type: 'line',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: `Dự đoán ${days} ngày tới (USD)`,
+                data: data.predictions,
+                borderColor: '#00d4ff',
+                backgroundColor: 'rgba(0,212,255,0.2)',
+                tension: 0.4,
+                fill: true,
+                pointBackgroundColor: '#fff',
+                pointRadius: 6
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: { 
+                title: { 
+                    display: true, 
+                    text: `Dự đoán giá Bitcoin ${days} ngày tới`, 
+                    font: {size: 20},
+                    color: '#fff'
+                }
+            },
+            scales: {
+                y: { ticks: { color: '#fff' }, grid: { color: '#333' } },
+                x: { ticks: { color: '#fff' }, grid: { color: '#333' } }
+            }
+        }
+    });
+}
+</script>
+</body>
+</html>
