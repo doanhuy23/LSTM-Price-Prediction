@@ -15,8 +15,8 @@ app = FastAPI(title="DỰ ĐOÁN GIÁ BITCOIN - LSTM")
 app.mount("/static", StaticFiles(directory="web_app/static"), name="static")
 templates = Jinja2Templates(directory="web_app/templates")
 
-MODEL_PATH = "D:\Code\python\DoAn_LSTM_PredictPrice\models\lstm_baseline_window60.pth"
-SCALER_PATH = "D:\Code\python\DoAn_LSTM_PredictPrice\processing\data\processed\scaler.npy"
+MODEL_PATH = "models\lstm_baseline_window60.pth"
+SCALER_PATH = "processing\data\processed\scaler.npy"
 
 class LSTMModel(nn.Module):
     def __init__(self):
@@ -32,7 +32,7 @@ model.load_state_dict(torch.load(MODEL_PATH, map_location="cpu"))
 model.eval()
 
 scaler = np.load(SCALER_PATH, allow_pickle=True).item()
-X_recent = np.load("D:\Code\python\DoAn_LSTM_PredictPrice\processing\data\processed\X_test.npy")[-1:]
+X_recent = np.load("processing\data\processed\X_test.npy")[-1:]
 
 @app.get("/", response_class=HTMLResponse)
 async def home(request: Request):
