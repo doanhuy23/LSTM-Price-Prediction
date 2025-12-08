@@ -25,7 +25,7 @@
     <select id="ticker">
         {% for code, name in assets.items() %}
         <option value="{{ code }}">{{ name }}</option>
-        {% endfor %}
+        {% endfor %
     </select>
     <br><br>
     <button onclick="predict(1)">1 ngày tới</button>

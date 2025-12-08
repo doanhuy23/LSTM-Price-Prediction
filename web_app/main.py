@@ -13,7 +13,7 @@ from datetime import datetime, timedelta
 os.makedirs("web_app/static", exist_ok=True)
 os.makedirs("web_app/templates", exist_ok=True)
 
-app = FastAPI(title="DỰ ĐOÁN GIÁ TÀI SẢN BẰNG AI - ĐỒ ÁN TỐT NGHIỆP")
+app = FastAPI(title="DỰ ĐOÁN GIÁ TÀI SẢN BẰNG AI")
 
 app.mount("/static", StaticFiles(directory="web_app/static"), name="static")
 templates = Jinja2Templates(directory="web_app/templates")
@@ -54,7 +54,7 @@ def get_recent_data(ticker, days=60):
 
 @app.get("/", response_class=HTMLResponse)
 async def home(request: Request):
-    return templates.TemplateResponse("index_pro.html", {"request": request, "assets": ASSETS})
+    return templates.TemplateResponse("index.html", {"request": request, "assets": ASSETS})
 
 @app.get("/predict/{ticker}/{days:int}")
 async def predict(ticker: str, days: int):
