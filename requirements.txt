@@ -1,0 +1,6 @@
+﻿fastapi
+uvicorn[standard]
+jinja2
+torch
+numpy
+scikit-learn
