@@ -15,7 +15,7 @@ app = FastAPI(title="DỰ ĐOÁN GIÁ BITCOIN - LSTM")
 app.mount("/static", StaticFiles(directory="web_app/static"), name="static")
 templates = Jinja2Templates(directory="web_app/templates")
 
-MODEL_PATH = "D:\Code\python\DoAn_LSTM_PredictPrice\models\models\lstm_baseline_window60.pth"
+MODEL_PATH = "D:\Code\python\DoAn_LSTM_PredictPrice\models\lstm_baseline_window60.pth"
 SCALER_PATH = "D:\Code\python\DoAn_LSTM_PredictPrice\processing\data\processed\scaler.npy"
 
 class LSTMModel(nn.Module):
